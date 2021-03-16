@@ -26,6 +26,29 @@ namespace dotnet.Controllers
             _context = context;
         }
 
+        [HttpPost("login")]
+        public async Task<ActionResult<UserDto>> login(LoginDto loginDto)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(user => user.UserName == loginDto.username);
+
+            if(user == null) return new UnauthorizedResult();
+            
+            using var hmac = new HMACSHA512(user.passwordSalt);
+
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.password));
+
+            for(int i = 0; i < computedHash.Length; i++){
+                if(computedHash[i] != user.passwordHash[i]) return new UnauthorizedResult();
+            }
+
+            return new UserDto{
+                username = user.UserName,
+                firstName = user.firstName,
+                lastName = user.lastName,
+                token = CreateToken(user)
+            };
+        }
+
         [HttpPost("register")] // 192.168.1.4/account/register
         public async Task<ActionResult<UserDto>> register(RegisterDto registerDto)
         {

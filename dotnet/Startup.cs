@@ -33,6 +33,19 @@ namespace dotnet
             services.AddControllers();
             services.AddCors();
 
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey=true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("dasdaadsadasd2131312deni")),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+
                 
             services.AddDbContext<DataContext>(options => 
             {

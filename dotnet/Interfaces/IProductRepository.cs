@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using dotnet.Entities;
+using dotnet.DTOs;
 
 namespace dotnet.Interfaces
 {
@@ -9,5 +10,7 @@ namespace dotnet.Interfaces
         void Update(Product product);
         Task<IEnumerable<Product>> GetProductsAsync();
         Task<Product> GetProductByIdAsync(int id);
+        Task<Product> AddProduct(CreateProductDTO newProductDto, AppUser user);
+        
     }
 }

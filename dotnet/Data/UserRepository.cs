@@ -47,6 +47,11 @@ namespace dotnet.Data
             return claims.Identity.Name;
         }
 
+        public void AddUser(AppUser user)
+        {
+            _context.Users.Add(user);
+        }
+
         public async Task<bool> SaveAllAsync()
         {
             return await _context.SaveChangesAsync() > 0;

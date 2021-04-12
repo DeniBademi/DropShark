@@ -11,6 +11,7 @@ namespace dotnet.Interfaces
         Task<AppUser> GetUserByIdAsync(int id);
         Task<AppUser> GetUserByUsernameAsync(string username);
         string GetUsernameByTokenAsync(string token);
-        
+        void AddUser(AppUser user);
+
     }
 }

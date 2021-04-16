@@ -43,6 +43,7 @@ namespace dotnet.Controllers
 
             return new UserDto{
                 username = user.UserName,
+                role = user.role,
                 firstName = user.firstName,
                 lastName = user.lastName,
                 token = CreateToken(user)
@@ -62,6 +63,7 @@ namespace dotnet.Controllers
                 UserName = registerDto.username.ToLower(),
                 firstName = registerDto.firstName,
                 lastName = registerDto.lastName,
+                role = "user",
                 passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.password)),
                 passwordSalt = hmac.Key
             };
@@ -74,7 +76,6 @@ namespace dotnet.Controllers
                 firstName = user.firstName,
                 lastName = user.lastName,
                 token = CreateToken(user)
-                
             };
         }
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using dotnet.Data;
 using dotnet.Interfaces;
 
-namespace API.Extensions
+namespace dotnet.Extensions
 {
     public static class IdentityServiceExtensions
     {
@@ -24,7 +24,7 @@ namespace API.Extensions
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"])),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("deni pravi chat deni pravi chat deni pravi chat")),
                         ValidateIssuer = false,
                         ValidateAudience = false,
                     };

@@ -41,7 +41,11 @@ namespace dotnet.Controllers
         {
             var username = User.GetUsername();
             var user = await _userRepository.GetUserByUsernameAsync(username);
-            
+            var test = new Product{
+                Name=username,
+                Description = user.role
+            };
+            return Ok(test);
             if(user.role == null || user.role == "user") return Unauthorized("You need elevated permissions to list new products!");
             
             var productType = await _productTypeRepository.GetProductTypeByIdAsync(newProductDto.ProductTypeId);

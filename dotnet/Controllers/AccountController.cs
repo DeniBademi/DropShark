@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;  
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using dotnet.Data;
 using dotnet.DTOs;
 using System.Security.Cryptography;
@@ -13,19 +13,27 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
+using dotnet.Interfaces;
+using dotnet.Extensions;
+
 namespace dotnet.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class AccountController : ControllerBase
     {
-
+        private readonly IUserRepository _userRepository;
         private readonly DataContext _context;
-        public AccountController(DataContext context)
+        
+        public AccountController(IUserRepository UserRepository,
+                                 DataContext context
+                                ) 
         {
             _context = context;
+            _userRepository = UserRepository;
         }
 
+        
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> login(LoginDto loginDto)
         {
@@ -50,6 +58,7 @@ namespace dotnet.Controllers
             };
         }
 
+        
         [HttpPost("register")] // 192.168.1.4/account/register
         public async Task<ActionResult<UserDto>> register(RegisterDto registerDto)
         {
@@ -79,6 +88,7 @@ namespace dotnet.Controllers
             };
         }
 
+        
         public string CreateToken(AppUser user)
         {
             var claims = new List<Claim>
@@ -101,9 +111,38 @@ namespace dotnet.Controllers
             return tokenHandler.WriteToken(token);
         }
 
+        
         public async Task<bool> UserExists(string username)
         {
             return await _context.Users.AnyAsync(x => x.UserName == username.ToLower());
+        }
+
+        
+        [HttpGet("getAll")]
+        public async Task<ActionResult<List<UserRepository>>> GetUsers()
+        {
+            return Ok(await _userRepository.GetUsersAsync());
+        }
+
+        
+        [HttpPost("setPermissions")]
+        public async Task<ActionResult<UserDto>> setPermissions(UserDto u){
+            var head = Request.Headers.Values;
+            var username = User.GetUsername();
+            var caller = await _userRepository.GetUserByUsernameAsync(username);
+
+            if(caller.role != "admin") return Unauthorized("You don't have permissions to update roles!");
+
+            var user = await _userRepository.GetUserByUsernameAsync(u.username);
+            user.role = u.role;
+
+            _userRepository.Update(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(new UserDto{
+                username = user.UserName,
+                role = user.role
+            });
         }
     }
 }

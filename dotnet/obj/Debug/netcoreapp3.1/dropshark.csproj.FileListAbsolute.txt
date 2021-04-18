@@ -48,3 +48,10 @@ C:\Users\USER-1\Desktop\DropShark\dotnet\obj\Debug\netcoreapp3.1\dropshark.pdb
 C:\Users\USER-1\Desktop\DropShark\dotnet\obj\Debug\netcoreapp3.1\dropshark.genruntimeconfig.cache
 C:\Users\USER-1\Desktop\DropShark\dotnet\bin\Debug\netcoreapp3.1\EntityFramework.dll
 C:\Users\USER-1\Desktop\DropShark\dotnet\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.Certificate.dll
+C:\Users\USER-1\Desktop\DropShark\dotnet\bin\Debug\netcoreapp3.1\System.Web.Mvc.dll
+C:\Users\USER-1\Desktop\DropShark\dotnet\bin\Debug\netcoreapp3.1\System.Web.Razor.dll
+C:\Users\USER-1\Desktop\DropShark\dotnet\bin\Debug\netcoreapp3.1\System.Web.Helpers.dll
+C:\Users\USER-1\Desktop\DropShark\dotnet\bin\Debug\netcoreapp3.1\System.Web.WebPages.Deployment.dll
+C:\Users\USER-1\Desktop\DropShark\dotnet\bin\Debug\netcoreapp3.1\System.Web.WebPages.Razor.dll
+C:\Users\USER-1\Desktop\DropShark\dotnet\bin\Debug\netcoreapp3.1\System.Web.WebPages.dll
+C:\Users\USER-1\Desktop\DropShark\dotnet\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll

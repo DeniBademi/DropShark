@@ -24,6 +24,7 @@ namespace dotnet.Controllers
         private readonly IProductRepository _productRepository;
         private readonly IProductTypeRepository _productTypeRepository;
         private readonly IProductBrandRepository _productBrandRepository;
+        
         public ProductController(IUserRepository UserRepository,
                                  IProductRepository ProductRepository, 
                                  IProductTypeRepository ProductTypeRepository,
@@ -36,26 +37,16 @@ namespace dotnet.Controllers
             _productTypeRepository = ProductTypeRepository;
             _productBrandRepository = ProductBrandRepository;
         }
+        
         [HttpPost("create")]
-        public async Task<ActionResult<Product>> CreateProduct(CreateProductDTO newProductDto)
+        public async Task<ActionResult<Product>> CreateProduct()
         {
-            var username = User.GetUsername();
-            var user = await _userRepository.GetUserByUsernameAsync(username);
+            
             var test = new Product{
-                Name=username,
-                Description = user.role
+                Name = "de"
             };
             return Ok(test);
-            if(user.role == null || user.role == "user") return Unauthorized("You need elevated permissions to list new products!");
             
-            var productType = await _productTypeRepository.GetProductTypeByIdAsync(newProductDto.ProductTypeId);
-            if (productType == null)
-            {
-                return Unauthorized("This product type does not exist!");
-            }
-
-            var product = _productRepository.AddProduct(newProductDto, user);
-            return Ok(product);
             
         }
         [HttpGet("getAll")]

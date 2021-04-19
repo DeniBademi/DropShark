@@ -57,9 +57,9 @@ namespace dotnet.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public void Update(AppUser updatedUser)
+        public void Update(AppUser user)
         {
-            _context.Entry(updatedUser).State = EntityState.Modified;
+            _context.Entry(user).State = EntityState.Modified;
         }
     }
 }

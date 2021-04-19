@@ -11,7 +11,7 @@ namespace dotnet.DTOs
         [Required]
         public string lastName { get; set; }
         [Required]
-        public string password { get; set; }
+        public string password {get; set; }
         
     }
 }

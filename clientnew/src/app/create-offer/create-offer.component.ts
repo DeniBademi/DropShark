@@ -7,6 +7,7 @@ import { ProductServiceService } from '../_services/ProductService.service';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import { ThrowStmt } from '@angular/compiler';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-offer',
@@ -24,7 +25,8 @@ export class CreateOfferComponent implements OnInit {
   constructor(private accountService: AccountServiceService,
      private router: Router,
      private ps: ProductServiceService,
-     private http: HttpClient) { }
+     private http: HttpClient,
+     private toastr: ToastrService) { }
 
   ngOnInit() {
     this.getTypes()
@@ -32,7 +34,8 @@ export class CreateOfferComponent implements OnInit {
 
   cancel(){
     console.log("canceled");
-    this.cancelCreateoffer.emit(false);
+    //this.cancelCreateoffer.emit(false);
+    this.router.navigate(['home'])
   }
 
   getTypes(){
@@ -70,6 +73,9 @@ export class CreateOfferComponent implements OnInit {
       console.log(response);
     })
   ).subscribe(response => {
+    
+    this.router.navigate(['home'])
+    this.toastr.success("Product " + this.model["Name"] + " listed successfuly!","New product listed")
   }, error => {
     console.log(error.error);
   }) 

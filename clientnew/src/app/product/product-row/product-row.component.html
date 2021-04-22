@@ -13,13 +13,20 @@
 <!-- <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js'></script>
 <link href='https://use.fontawesome.com/releases/v5.7.2/css/all.css'> -->
-<div class="col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2" style="border: 2px solid; min-width: 154px;">
-  <div class="card"  > <img class="card-img-top" src="https://www.flightclub.com/media/catalog/product/8/0/800238_1.jpg">
+<div class="col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2"
+ style="
+ min-width: 154px;
+  max-width: 154px;
+   border-radius: 5px;
+   padding-top: 10px;
+
+   margin: 10px">
+  <div class="card"  > <img class="card-img-top" src="{{product.pictureUrl}}">
       <div class="card-body" >
           <div class="d-flex align-items-start justify-content-between"  >
-              <div class="d-flex flex-column" style="min-width: 50px;" >
+              <div class="d-flex flex-column" style="min-width: 50px; background-color: white;" >
                   <div class="h6 font-weight-bold">{{product.name}}</div>
-                  <div class="h6 font-weight-bold">{{product.description}}</div>
+                  <!-- <div class="h6 font-weight-bold">{{product.description}}</div> -->
                   <div class="text-muted">${{product.price}}</div>
                   <div class="row" style="min-width: 100px;">
                     <div>Type: {{product.productType.name}}</div>
@@ -32,3 +39,4 @@
       </div>
   </div>
 </div>
+<br>

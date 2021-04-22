@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators'
@@ -85,6 +85,11 @@ getCurrentUser(){
   return JSON.parse(localStorage.getItem('user'))
 }
 
+getRole(){
+  //console.log(JSON.parse(localStorage.getItem('user'))['token'])
+  return JSON.parse(localStorage.getItem('user'))['role']
+}
+
 
 getUsers(){
   return this.http.get(this.accUrl+'/getAll').pipe(
@@ -95,11 +100,32 @@ getUsers(){
   )
 }
 
+makeSeller(username){
+  var u = new User(username,"seller")
 
-makeAdmin(u: User){
-  return this.http.post(this.baseUrl + 'account/setPermissions', u).pipe(
+  return this.http.post(this.baseUrl + 'account/setPermissions', u, {
+    observe: 'response',
+    headers: new HttpHeaders()
+        .set('Authorization', 'Bearer '+this.getCurrentUser()['token'])
+  }).pipe(
     map((response:any) => {
-        
+      this.getUsers();
+    })
+  )
+}
+
+makeAdmin(u){
+  var user = new User(u,"admin")
+  console.log(user)
+  return this.http.post(this.baseUrl + 'account/setPermissions', user,
+  {
+    observe: 'response',
+    headers: new HttpHeaders()
+        .set('Authorization', 'Bearer '+this.getCurrentUser()['token'])
+  }).pipe(
+    map((response:any) => {
+
+      this.getUsers();
     })
   )
 }

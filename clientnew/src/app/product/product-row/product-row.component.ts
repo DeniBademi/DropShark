@@ -12,6 +12,7 @@ export class ProductRowComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    if(this.product.pictureUrl.length<10) this.product.pictureUrl = "https://safetyaustraliagroup.com.au/wp-content/uploads/2019/05/image-not-found.png"
     console.log('a')
   }
 

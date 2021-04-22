@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
 
 
   ngOnInit(): void {
+
   }
 
 
@@ -36,4 +37,9 @@ export class HomeComponent implements OnInit {
   productWasSelected(halo: Product): void {
     console.log('Product clicked: ', halo);
   }
+
+  onChangePage(pageOfItems: Array<any>) {
+    // update current page of items
+   // this.pageOfItems = pageOfItems;
+}
 }

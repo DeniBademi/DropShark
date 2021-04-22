@@ -21,9 +21,13 @@ import { AuthInterceptor } from './Interceptors/AuthInterceptor';
 import { ProductListComponent } from './product/product-list/product-list.component';
 import { ProductRowComponent } from './product/product-row/product-row.component';
 import {MatIconModule} from '@angular/material/icon';
+import { JwPaginationComponent } from 'jw-angular-pagination';
+import { PagerComponent } from './pager/pager.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
-  declarations: [					
+  declarations: [						
       AppComponent,
       NavComponent,
       HomeComponent,
@@ -32,7 +36,8 @@ import {MatIconModule} from '@angular/material/icon';
       CreateOfferComponent,
       ProductListComponent,
       ProductRowComponent,
-      AdminComponent
+      AdminComponent,
+      PagerComponent
    ],
   imports: [
     BrowserModule,
@@ -41,7 +46,12 @@ import {MatIconModule} from '@angular/material/icon';
     MatIconModule,
     FormsModule,
     MatFormFieldModule,
+    MatPaginatorModule,
     MatSelectModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
     BrowserAnimationsModule,
     BsDropdownModule.forRoot()
   ],

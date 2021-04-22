@@ -1,7 +1,10 @@
 
 <br><br><br><br>
+
 <div class="d-flex align-items-center justify-content-between py-4 results">
-  <div>Showing 1-40 of 350</div>
+  <div style="font-size: 20px;">Browse products</div>
+  <hr style="width:77%;text-align:left;margin-left:10px">
+  
   <!-- <div> <span>Price: </span> <select name="price" id="price">
           <option value="l2h" selected>low to high</option>
           <option value="l2h">high to low</option>
@@ -17,3 +20,10 @@
     [class.selected]="isSelected(p)">
   </app-product-row>
 </div>
+
+<mat-paginator [length]="totalPages"
+[pageSize]="pageSize"
+[pageSizeOptions]="[6, 12, 25, 100]"
+(page)="onChangePage($event)"
+>
+</mat-paginator>  

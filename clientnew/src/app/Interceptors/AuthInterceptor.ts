@@ -11,14 +11,14 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private lsService : LocalStorageService, private accountService: AccountServiceService) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log("Request is in interceptor");
+        //console.log("Request is in interceptor");
 
         this.token = this.lsService.getToken();
         try{
            var test = this.accountService.getCurrentUser()['token'];
         var authHeader = 'Bearer ' + test;//this.token.access_token;
         const authReq = req.clone({setHeaders: {Authorization: authHeader}});
-        console.log(authReq);
+        //console.log(authReq);
 
         return next.handle(authReq); 
         }

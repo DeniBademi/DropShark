@@ -1,13 +1,18 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { finalize, map, takeUntil } from 'rxjs/operators';
 import { AccountServiceService } from '../_services/AccountService.service';
 import { ProductServiceService } from '../_services/ProductService.service';
+import { AngularFireStorage } from "@angular/fire/storage";
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import { ThrowStmt } from '@angular/compiler';
 import { ToastrService } from 'ngx-toastr';
+import { Observable, Subject } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-create-offer',
@@ -18,19 +23,56 @@ export class CreateOfferComponent implements OnInit {
 
   @Output() cancelCreateoffer = new EventEmitter();
   model: any = {};
+  selectedFile: File = null;
+  destroy$: Subject<null> = new Subject();
   typesLoaded: boolean = false;
   brands: any
   baseUrl = "https://localhost:5001/";
   types: any;
+  fb;
+  downloadURL: Observable<string>;
+  
+
+  fileToUpload: File;
+  kittyImagePreview: string | ArrayBuffer;
+  pictureForm: FormGroup;
+  user: firebase.default.User;
+
+
+  
   constructor(private accountService: AccountServiceService,
      private router: Router,
      private ps: ProductServiceService,
      private http: HttpClient,
-     private toastr: ToastrService) { }
+     private toastr: ToastrService,
+     private storage: AngularFireStorage,
+     private store: AngularFirestore,
+     private readonly formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.getTypes()
+    this.pictureForm = this.formBuilder.group({
+      photo: [null, Validators.required],
+      description: [null, Validators.required],
+    });
+    this.pictureForm
+      .get('photo')
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe((newValue) => {
+        this.handleFileChange(newValue.files);
+      });
+
+
   }
+
+  handleFileChange([ kittyImage ]) {
+    this.fileToUpload = kittyImage;
+    const reader = new FileReader();
+    reader.onload = (loadEvent) => (this.kittyImagePreview = 
+    loadEvent.target.result);
+    reader.readAsDataURL(kittyImage);
+  }
+
 
   cancel(){
     console.log("canceled");
@@ -59,8 +101,26 @@ export class CreateOfferComponent implements OnInit {
     })
   }
   createOffer() {
-   
-    this.model['PictureUrl']=""
+
+
+    this.uploadImage(this.model['Name'])
+
+  }
+  onFileSelected(event) {
+    console.log(event.target.files[0]['name'])
+    if (!event.target.files[0]['name'].endsWith(".jpg")){
+      
+        this.toastr.error("This doesn't seem like an image", "Invalid file");
+        return
+    }
+
+    
+    this.selectedFile = event.target.files[0];
+
+  }
+
+  saveOffer(photoUrl : string){
+    this.model['PictureUrl']=photoUrl
     this.model['Price']=Number(this.model['Price'])
     var myTypeId=0;
     this.types.forEach(type => {
@@ -79,6 +139,30 @@ export class CreateOfferComponent implements OnInit {
   }, error => {
     console.log(error.error);
   }) 
+  }
 
+  uploadImage(productName: string){
+    var n = Date.now();
+    const filePath = "ProductPhotos/"+productName+"/"+n;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, this.selectedFile);
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          this.downloadURL = fileRef.getDownloadURL();
+          this.downloadURL.subscribe(url => {
+            if (url) {
+              this.fb = url;
+            }
+            this.saveOffer(this.fb);
+          });
+        })
+      )
+      .subscribe(url => {
+        if (url) {
+          console.log(url);
+        }
+      });
   }
 }

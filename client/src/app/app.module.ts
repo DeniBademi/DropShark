@@ -25,6 +25,14 @@ import { JwPaginationComponent } from 'jw-angular-pagination';
 import { PagerComponent } from './pager/pager.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ToastrModule } from 'ngx-toastr';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { ReactiveFormsModule } from '@angular/forms';
+import { environment } from 'src/environments/environment'
+import {
+  AngularFireStorageModule,
+  AngularFireStorageReference,
+  AngularFireUploadTask} from "@angular/fire/storage";
 
 @NgModule({
   declarations: [						
@@ -47,12 +55,18 @@ import { ToastrModule } from 'ngx-toastr';
     FormsModule,
     MatFormFieldModule,
     MatPaginatorModule,
+    ReactiveFormsModule,
     MatSelectModule,
+    AngularFireStorageModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
     BrowserAnimationsModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    
+    AngularFireModule.initializeApp(environment.firebaseConfig, "cloud"),
     BsDropdownModule.forRoot()
   ],
   providers: [

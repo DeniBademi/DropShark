@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { Product } from 'src/app/_models/Product';
 import { AccountServiceService } from 'src/app/_services/AccountService.service';
 
+
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -15,6 +16,13 @@ export class ProductListComponent implements OnInit {
   pageSize: any = "12";
   totalPages: any = "100";
   currentPage: any = "1";
+
+  filters: any = {};
+  types: any;
+  brands: any;
+  sizes: any;
+
+  direction: any = "arrow_downward"
 
   @Input() productList: Product[];
   @Output() onProductSelected: EventEmitter<Product> = new EventEmitter<Product>();
@@ -28,15 +36,25 @@ export class ProductListComponent implements OnInit {
 }
 
   ngOnInit() {
-    var headers = new HttpHeaders()
-        .set('Authorization', 'Bearer '+this.accountService.getCurrentUser()['token'])
   
+    this.getProducts()
+    this.getTypes()
+    this.getBrands()
+    this.getSizes()
+  }
+
+  getProducts() {
+
+    
+    
     this.http.get(this.baseUrl+'product/getAll', 
     {
-      headers: headers,
       observe: 'response',
       params: new HttpParams().set("pageNumber", this.currentPage)
                               .set("pageSize", this.pageSize)
+                              .set("orderBy", this.filters.orderBy)
+                              .set("filters", JSON.stringify(this.filters))
+                              .set("direction", this.direction=="arrow_downward" ? "asc" : "desc")
     }).pipe(
       map((response: any) => {
         const types = response;
@@ -48,6 +66,58 @@ export class ProductListComponent implements OnInit {
       this.productList = response.body;
       var pag = JSON.parse(response.headers.get("Pagination"))
       this.totalPages = String(pag["TotalItems"])
+    }, error => {
+      console.log(error.error);
+    })
+  }
+
+  getTypes(){
+    this.http.get(this.baseUrl+'product/types/getAll').pipe(
+      map((response: any) => {
+        const types = response;
+        return types;
+      })
+    ).subscribe(response => {
+
+      this.typesLoaded=true;
+      this.types = response;
+      console.log(response[0])
+    }, error => {
+      console.log(error.error);
+    })
+  }
+
+  getBrands(){
+    this.http.get(this.baseUrl+'product/brands/getAll').pipe(
+      map((response: any) => {
+        const types = response;
+        return types;
+      })
+    ).subscribe(response => {
+
+      this.brands = response;
+      console.log(response[0])
+    }, error => {
+      console.log(error.error);
+    })
+  }
+  getSizes(){
+    console.log(this.filters.ProductTypeId)
+    var params = new HttpParams();
+    if (this.filters.ProductTypeId != null){
+      var params = params.set("ProductTypeId", this.filters.ProductTypeId)
+    }
+    this.http.get(this.baseUrl+'product/sizes/getAll', {
+      params: params
+    }).pipe(
+      map((response: any) => {
+        const types = response;
+        return types;
+      })
+    ).subscribe(response => {
+
+      this.sizes = response;
+      console.log(response[0])
     }, error => {
       console.log(error.error);
     })
@@ -72,5 +142,18 @@ export class ProductListComponent implements OnInit {
     this.ngOnInit();
 
 }
+  onChangeDirection(){
+    if (this.direction=="arrow_downward"){
+      this.direction="arrow_upward"
+    }else{
+      this.direction="arrow_downward"
+    }
 
+    this.getProducts();
+  }
+
+  onChangeCategory(){
+    this.getSizes()
+    this.getProducts()
+  }
 }

@@ -11,6 +11,8 @@ using dotnet.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq;
+using dotnet.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace dotnet.Controllers
 {
@@ -24,10 +26,12 @@ namespace dotnet.Controllers
         private readonly IProductRepository _productRepository;
         private readonly IProductTypeRepository _productTypeRepository;
         private readonly IProductBrandRepository _productBrandRepository;
+        private readonly IProductSizeShoeRepository _productSizeRepository;
         public ProductController(IUserRepository UserRepository,
                                  IProductRepository ProductRepository, 
                                  IProductTypeRepository ProductTypeRepository,
                                  IProductBrandRepository ProductBrandRepository,
+                                 IProductSizeShoeRepository ProductSizeRepository,
                                  DataContext context)
         {
             _context = context;
@@ -35,6 +39,7 @@ namespace dotnet.Controllers
             _productRepository = ProductRepository;
             _productTypeRepository = ProductTypeRepository;
             _productBrandRepository = ProductBrandRepository;
+            _productSizeRepository = ProductSizeRepository;
         }
         [HttpPost("create")]
         public async Task<ActionResult<Product>> CreateProduct(CreateProductDTO newProductDto)
@@ -55,9 +60,12 @@ namespace dotnet.Controllers
             
         }
         [HttpGet("getAll")]
-        public async Task<ActionResult<List<ProductBrand>>> GetProducts()
+        public async Task<ActionResult<List<ProductBrand>>> GetProducts([FromQuery]ProductParams productParams)
         {
-            return Ok(await _productRepository.GetProductsAsync());
+            var products = await _productRepository.GetProductsAsync(productParams);
+
+            Response.AddPagination(products.CurrentPage, products.PageSize, products.TotalCount, products.TotalPages);
+            return Ok(products);
         }
 
         [HttpGet("brands/getAll")]
@@ -88,6 +96,63 @@ namespace dotnet.Controllers
             
             return Ok();
         }
+
+        [HttpGet("sizes/getAll")]
+        public async Task<ActionResult<List<ProductBrand>>> GetProductSizes([FromQuery]int ProductTypeId)
+        {
+            return Ok(await _productSizeRepository.GetProductSizesAsync(ProductTypeId));
+        }
+         [HttpPost("sizes/add")]
+        public async Task<ActionResult<ProductBrand>> AddProductSize(CreateProductSizeDTO createProductSizeDTO)
+        {
+            var username = User.GetUsername();
+            var user = await _userRepository.GetUserByUsernameAsync(username);
+
+            if(user.role != "admin") return Unauthorized("You need elevated permissions to list new products!");
+
+
+            var productType = await _productTypeRepository.GetProductTypeByIdAsync(createProductSizeDTO.ProductTypeId);
+
+            if (productType == null) return BadRequest("Invalid type selected!");
+
+            var newProductSize = new ProductSize
+            {
+                nameS = createProductSizeDTO.nameS,
+                nameI = createProductSizeDTO.nameI,
+                ProductTypeId = createProductSizeDTO.ProductTypeId,
+                ProductType = productType
+            };
+            _productSizeRepository.AddProductSize(newProductSize);
+            await _context.SaveChangesAsync();
+            
+            return Ok();
+        }
+
+        // [HttpPost("add-photo")]
+        // public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file, [FromQuery] int product_id)
+        // {
+        //     var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+        //     var result = await _photoService.AddPhotoAsync(file);
+
+        //     if (result.Error != null) return BadRequest(result.Error.Message);
+
+        //     var photo = new Photo
+        //     {
+        //         Url = result.SecureUrl.AbsoluteUri,
+        //         PublicId = result.PublicId
+        //     };
+
+        //     product.Photos.Add(photo);
+
+        //     if (await _context.SaveChangesAsync() > 0)
+        //     {
+        //         return Ok();
+        //     }
+
+
+        //     return BadRequest("Problem addding photo");
+        // }
 
     }
 }

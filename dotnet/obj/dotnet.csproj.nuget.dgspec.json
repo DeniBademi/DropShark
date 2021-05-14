@@ -43,6 +43,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "CloudinaryDotNet": {
+              "target": "Package",
+              "version": "[1.15.1, )"
+            },
             "Microsoft.AspNetCore.Authentication.Certificate": {
               "target": "Package",
               "version": "[3.0.0-preview6.19307.2, )"
@@ -50,6 +54,10 @@
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[3.1.0, )"
+            },
+            "Microsoft.AspNetCore.Http": {
+              "target": "Package",
+              "version": "[2.2.2, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -66,6 +74,10 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[5.5.0, )"
+            },
+            "bootstrap": {
+              "target": "Package",
+              "version": "[4.5.0, )"
             }
           },
           "imports": [

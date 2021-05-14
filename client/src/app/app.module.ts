@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CreateOfferComponent } from './create-offer/create-offer.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+
 import { AdminComponent } from './admin/admin.component';
 import { AccountServiceService } from './_services/AccountService.service';
 import { LocalStorageService } from './_services/LocalStorage.service';
@@ -24,6 +25,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { JwPaginationComponent } from 'jw-angular-pagination';
 import { PagerComponent } from './pager/pager.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button'
 import { ToastrModule } from 'ngx-toastr';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -53,6 +55,7 @@ import {
     HttpClientModule,
     MatIconModule,
     FormsModule,
+    MatButtonModule,
     MatFormFieldModule,
     MatPaginatorModule,
     ReactiveFormsModule,

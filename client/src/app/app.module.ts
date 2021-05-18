@@ -35,9 +35,11 @@ import {
   AngularFireStorageModule,
   AngularFireStorageReference,
   AngularFireUploadTask} from "@angular/fire/storage";
+import { MatDialogModule } from '@angular/material/dialog';
+import { CourseDialogComponent } from './CourseDialog/CourseDialog.component';
 
 @NgModule({
-  declarations: [						
+  declarations: [							
       AppComponent,
       NavComponent,
       HomeComponent,
@@ -47,7 +49,8 @@ import {
       ProductListComponent,
       ProductRowComponent,
       AdminComponent,
-      PagerComponent
+      PagerComponent,
+      CourseDialogComponent
    ],
   imports: [
     BrowserModule,
@@ -58,6 +61,7 @@ import {
     MatButtonModule,
     MatFormFieldModule,
     MatPaginatorModule,
+    MatDialogModule,
     ReactiveFormsModule,
     MatSelectModule,
     AngularFireStorageModule,
@@ -81,6 +85,7 @@ import {
     AccountServiceService,
     LocalStorageService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [CourseDialogComponent]
 })
 export class AppModule { }

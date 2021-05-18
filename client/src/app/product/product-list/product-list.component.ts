@@ -1,8 +1,10 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs/operators';
 import { Product } from 'src/app/_models/Product';
 import { AccountServiceService } from 'src/app/_services/AccountService.service';
+import { CartService } from 'src/app/_services/Cart.service';
 
 
 @Component({
@@ -29,7 +31,10 @@ export class ProductListComponent implements OnInit {
   private currentProduct: Product
   typesLoaded: boolean;
   
-  constructor(private http: HttpClient, public accountService: AccountServiceService) { 
+  constructor(private http: HttpClient, 
+    public accountService: AccountServiceService, 
+    public cartService: CartService,
+    public toastr:ToastrService) { 
 
     
   
@@ -126,6 +131,10 @@ export class ProductListComponent implements OnInit {
   clicked(product: Product): void {
     this.currentProduct = product
     this.onProductSelected.emit(product)
+    this.cartService.addToCart(product);
+    this.cartService.printCart();
+    this.toastr.info("Product added to cart", "Cart changed")
+
   }
 
   isSelected(product: Product): boolean {

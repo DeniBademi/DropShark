@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "dropshark-5b477": {
+      "hosting": {
+        "client": [
+          "dropshark-5b477"
+        ]
+      }
+    }
+  }
+}

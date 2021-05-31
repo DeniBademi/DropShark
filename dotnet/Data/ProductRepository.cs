@@ -182,5 +182,12 @@ namespace dotnet.Data
         {
             _context.Entry(product).State = EntityState.Modified;
         }
+        public async Task<int> DeleteProduct(int id)
+        {
+            var product = await this.GetProductByIdAsync(id);
+            _context.Entry(product).State =  EntityState.Deleted; 
+            return await _context.SaveChangesAsync();
+
+        }
     }
 }

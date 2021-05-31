@@ -67,6 +67,13 @@ namespace dotnet.Controllers
             Response.AddPagination(products.CurrentPage, products.PageSize, products.TotalCount, products.TotalPages);
             return Ok(products);
         }
+        [HttpPost("delete/{id}")]
+        public async Task<ActionResult<List<ProductBrand>>> GetProducts(int id)
+        {
+            var products = await _productRepository.DeleteProduct(id);
+
+            return Ok();
+        }
 
         [HttpGet("brands/getAll")]
         public async Task<ActionResult<List<ProductBrand>>> GetProductBrands()

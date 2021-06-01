@@ -15,6 +15,7 @@ import { CourseDialogComponent } from '../CourseDialog/CourseDialog.component';
 })
 export class NavComponent implements OnInit {
   logged: boolean;
+  cartopen: boolean = false;
   model: any = {};
   username : string;
   animal: string;
@@ -93,13 +94,21 @@ export class NavComponent implements OnInit {
     //   console.log('The dialog was closed');
     //   this.animal = result;
     // });
+    this.cartopen = true;
     const dialogConfig = new MatDialogConfig();
 
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
 
-        let a = this.dialog.open(CourseDialogComponent, dialogConfig);
-        console.log(a)
+    let a = this.dialog.open(CourseDialogComponent, dialogConfig);
+    console.log(a)
+
+    this.dialog.afterAllClosed.subscribe(
+      result => {
+        this.cartopen = false;
+    })
+      
+    
   }
 
 }

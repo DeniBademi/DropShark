@@ -20,7 +20,7 @@
             </ul>
         
             <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
-                <mat-icon (click)="openCartPage()" style="-webkit-text-fill-color:white">shopping_cart</mat-icon>
+                <mat-icon *ngIf="!this.cartopen" (click)="openCartPage()" style="-webkit-text-fill-color:white; margin-right: 10px;">shopping_cart</mat-icon>
                 
                 <a class="dropdown-toggle text-light" dropdownToggle>Welcome, {{ this.accountService.getCurrentUser()['username']}}</a>
                 <div class="dropdown-menu" *dropdownMenu>

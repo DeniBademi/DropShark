@@ -18,6 +18,14 @@ export class CourseDialogComponent implements OnInit {
   total: any = 0;
   addScript: boolean = false;
   paypalConfig = {
+    locale: 'en_US',
+    style: {
+    size: 'medium',
+    color: 'black',
+    shape: 'rect',
+    label: 'pay',
+    tagline: 'false'
+    },
     env: 'sandbox',
     client: {
       sandbox: 'AXvzCxXl7dxX2Pg2g25KxIrvwOb0RHKHcJ1UTDNE5M8RCiVa-evzmLwmfpnS5wDDUmF8dIGQqiRe1orw'
@@ -84,6 +92,7 @@ export class CourseDialogComponent implements OnInit {
 
   remove(product: any) {
     this.cartService.removeFromCart(product);
+    this.total -= product.price;
   }
 
   close() {

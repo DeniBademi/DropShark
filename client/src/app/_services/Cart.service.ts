@@ -29,4 +29,7 @@ printCart(){
 getItems(){
   return this.cartContent;
 }
+emptyCart(){
+  this.cartContent = [];
+}
 }

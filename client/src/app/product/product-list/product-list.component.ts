@@ -41,7 +41,6 @@ export class ProductListComponent implements OnInit {
 }
 
   ngOnInit() {
-  
     this.getProducts()
     this.getTypes()
     this.getBrands()
@@ -49,9 +48,6 @@ export class ProductListComponent implements OnInit {
   }
 
   getProducts() {
-
-    
-    
     this.http.get(this.baseUrl+'product/getAll', 
     {
       observe: 'response',
@@ -168,5 +164,16 @@ export class ProductListComponent implements OnInit {
   onChangeCategory(){
     this.getSizes()
     this.getProducts()
+  }
+
+  clearFilters() {
+    this.filters = [];
+    this.types = [];
+    this.brands = [];
+    this.sizes = [];
+
+    console.log(this.filters)
+
+    this.ngOnInit()    
   }
 }

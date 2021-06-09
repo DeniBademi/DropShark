@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Token } from '@angular/compiler/src/ml_parser/lexer';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AccountServiceService } from '../_services/AccountService.service';
 import { LocalStorageService } from '../_services/LocalStorage.service';
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import { CourseDialogComponent } from '../CourseDialog/CourseDialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-nav',
@@ -24,6 +25,7 @@ export class NavComponent implements OnInit {
   constructor(
     public accountService : AccountServiceService, 
     private router : Router,
+    private toastr : ToastrService,
     private lsService : LocalStorageService,
     private dialog: MatDialog
     ) {  }
@@ -31,7 +33,6 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
 
   }
-
 
   login(){
     console.log(this.model)
@@ -43,6 +44,7 @@ export class NavComponent implements OnInit {
       this.router.navigate(['/home'])
     }, error => {
       console.log(error);
+      this.toastr.error("Invalid login information")
     })
   }
 

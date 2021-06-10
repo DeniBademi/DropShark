@@ -1,2 +1,2 @@
 # DropShark
-An online shop designed for rare item releases using flask
+An online shop designed for rare item releases using .NET and AngularJS

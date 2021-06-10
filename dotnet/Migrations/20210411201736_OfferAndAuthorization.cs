@@ -6,10 +6,10 @@ namespace dotnet.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "role",
-                table: "Users",
-                nullable: true);
+            // migrationBuilder.AddColumn<string>(
+            //     name: "role",
+            //     table: "Users",
+            //     nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

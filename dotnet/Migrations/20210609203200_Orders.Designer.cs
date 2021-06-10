@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dotnet.Data;
 
 namespace dotnet.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210609203200_Orders")]
+    partial class Orders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,6 +53,9 @@ namespace dotnet.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("UserName")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("addressLine")
                         .HasColumnType("TEXT");
 
@@ -58,9 +63,6 @@ namespace dotnet.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("isCompleted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("productId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("sellerId")
@@ -72,8 +74,6 @@ namespace dotnet.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("buyerId");
-
-                    b.HasIndex("productId");
 
                     b.HasIndex("sellerId");
 
@@ -179,12 +179,6 @@ namespace dotnet.Migrations
                     b.HasOne("dotnet.Entities.AppUser", "buyer")
                         .WithMany()
                         .HasForeignKey("buyerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("dotnet.Entities.Product", "product")
-                        .WithMany()
-                        .HasForeignKey("productId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

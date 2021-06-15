@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CreateOfferComponent } from './create-offer/create-offer.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { AdminComponent } from './admin/admin.component';
 import { AccountServiceService } from './_services/AccountService.service';
@@ -37,6 +38,7 @@ import {
   AngularFireUploadTask} from "@angular/fire/storage";
 import { MatDialogModule } from '@angular/material/dialog';
 import { CourseDialogComponent } from './CourseDialog/CourseDialog.component';
+import { currentOrdersComponent } from './currentOrders/currentOrders.component';
 
 @NgModule({
   declarations: [							
@@ -46,6 +48,7 @@ import { CourseDialogComponent } from './CourseDialog/CourseDialog.component';
       IndexComponent,
       RegisterComponent,
       CreateOfferComponent,
+      currentOrdersComponent,
       ProductListComponent,
       ProductRowComponent,
       AdminComponent,
@@ -64,6 +67,7 @@ import { CourseDialogComponent } from './CourseDialog/CourseDialog.component';
     MatDialogModule,
     ReactiveFormsModule,
     MatSelectModule,
+    MatGridListModule,
     AngularFireStorageModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',

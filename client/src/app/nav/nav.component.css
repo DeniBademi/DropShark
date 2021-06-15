@@ -62,3 +62,8 @@ html, body {
   margin-right: 10px;
   vertical-align: middle;
 }
+.orders {
+  -webkit-text-fill-color:white;
+  margin-right: 10px;
+  vertical-align: middle;
+}

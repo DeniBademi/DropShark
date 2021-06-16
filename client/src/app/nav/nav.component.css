@@ -61,9 +61,11 @@ html, body {
   -webkit-text-fill-color:white;
   margin-right: 10px;
   vertical-align: middle;
+  cursor: pointer;
 }
 .orders {
   -webkit-text-fill-color:white;
   margin-right: 10px;
   vertical-align: middle;
+  cursor: pointer;
 }

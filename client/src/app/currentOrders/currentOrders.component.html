@@ -2,12 +2,34 @@
 <br>
 <br>
 <br>
+<div *ngIf="this.completed == 'false'" style="text-align: center; font-size: 15px;">Pending orders</div>
+<div *ngIf="this.completed == 'true'" style="text-align: center; font-size: 15px;">Completed orders</div>
+
+<div *ngIf="this.completed == 'false'">
+    <button class="orderbutton" (click)="this.changeOrders()">Completed</button>
+</div>
+<div *ngIf="this.completed == 'true'">
+    <button class="orderbutton" (click)="this.changeOrders()">Pending</button>
+</div>
+
 <table class="table table-stripped">
-    <thead>Orders</thead>
+    <thead>
+        <tr>
+            <th>Buyer Username</th>
+            <th>Buyer Address</th>
+            <th>Buyer zip code</th>
+            <th>Product</th>
+        </tr>
+    </thead>
 
     <tbody>
         <tr *ngFor="let order of this.orders">
+            <td><span>{{order.buyer.userName}}</span></td>
             <td><span>{{order.addressLine}}</span></td>
+            <td><span>{{order.zipCode}}</span></td>
+            <td><span>{{order.product.name}}</span></td>
         </tr>
     </tbody>
 </table>
+
+<!--<button class="orderbutton" (click)="this.refreshOrders()">get orders</button>-->

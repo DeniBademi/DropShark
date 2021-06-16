@@ -21,29 +21,44 @@ export class OrderServiceService {
 
   constructor(private http: HttpClient) { }
 
-    getOrders() {
-        this.http.get(this.baseUrl+'order/getAll', 
+    getOrders(completed: any) {
+      var a = this.http.get(this.baseUrl+'order/getAllBySellerId', 
     {
       observe: 'response',
-      params: new HttpParams()/*.set("pageNumber", this.currentPage)
+      params: new HttpParams().set("pageNumber", this.currentPage)
                               .set("pageSize", this.pageSize)
                               .set("orderBy", this.filters.orderBy)
-                              .set("filters", JSON.stringify(this.filters))
-                              .set("direction", this.direction=="arrow_downward" ? "asc" : "desc")*/
+                              .set("filters","{\"isCompleted\": +"+completed+"}")
+                              //.set("direction", this.direction=="arrow_downward" ? "asc" : "desc")
     }).pipe(
       map((response: any) => {
         const types = response;
+        //console.log(types);
         return types;
       })
-    ).subscribe(response => {
+    )
 
-      this.typesLoaded=true;
-      this.orderList = response.body;
-      var pag = JSON.parse(response.headers.get("Pagination"))
-      this.totalPages = String(pag["TotalItems"])
-    }, error => {
-      console.log(error.error);
-    })
+    console.log(a)
+    return a;
     }
+
+    addOrder(order: any) {
+      console.log(order);
+      this.http.post(this.baseUrl+'order/create', order).pipe(
+        map((response: any) => {
+          console.log(response);
+          console.log("ORDER MADE")
+        })
+      ).subscribe(response => {
+        
+        //this.router.navigate(['home'])
+        //this.toastr.success("Product " + this.model["Name"] + " listed successfuly!","New product listed")
+      }, error => {
+        console.log(error.error);
+      }) 
+      }
+    
+  
+
 
 }

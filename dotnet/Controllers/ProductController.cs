@@ -74,6 +74,7 @@ namespace dotnet.Controllers
                 int sellerRatesTotal = await _rateRepository.GetRatingsCount(product.sellerId);
 
                 productDtos.Add(new ProductDTO{
+                    id = product.Id,
                     sellerId = product.sellerId,
                     sellerRate = sellerRate,
                     sellerRatesTotal = sellerRatesTotal,

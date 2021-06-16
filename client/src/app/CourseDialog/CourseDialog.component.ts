@@ -21,6 +21,7 @@ export class CourseDialogComponent implements OnInit {
   address : string;
   zip: number;
   total: any = 0;
+  model: any = {};
   addScript: boolean = false;
   paypalConfig = {
     locale: 'en_US',
@@ -56,7 +57,12 @@ export class CourseDialogComponent implements OnInit {
           this.zip = payment.payer.payer_info.shipping_address.postal_code;
 
           
-
+          if(this.model.addressLine){
+            this.address = this.model.addressLine
+          }
+          if(this.model.zip){
+            this.zip = this.model.zip
+          }
           this.cart.forEach(element => {
             var o = new Order(element.sellerId, element.id,  this.address, Number(this.zip));
             this.orderService.addOrder(o);
@@ -95,7 +101,6 @@ export class CourseDialogComponent implements OnInit {
     this.cart=this.cartService.getItems()
     this.cart.forEach(e => {
       this.total+=e.price
-      console.log(e.id);
       console.log(e.sellerId);
       console.log(e.price);
     });

@@ -109,7 +109,7 @@ namespace dotnet.Controllers
 
             if(rateDto.score<1 || rateDto.score>10) return Unauthorized("Invalid score range");
             
-            //if((await _rateRepo.RatingExists(user.Id, rateDto.sellerId))) return Unauthorized("You have already rated that user!");
+            if((await _rateRepo.RatingExists(user.Id, rateDto.sellerId))) return Unauthorized("You have already rated that user!");
 
             var rate = new Rate{
                 sellerId = rateDto.sellerId,

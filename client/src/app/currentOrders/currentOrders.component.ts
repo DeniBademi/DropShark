@@ -3,6 +3,7 @@ import { OrderServiceService } from "../_services/OrderService.service";
 import { MatGridListModule } from '@angular/material/grid-list';
 import { AccountServiceService } from "../_services/AccountService.service";
 import { delay } from "rxjs/operators";
+import { ToastrService } from "ngx-toastr";
 
 
 @Component({
@@ -14,20 +15,24 @@ import { delay } from "rxjs/operators";
     orders : any 
   totalPages: string;
   completed: string = "false";
+  model: any = {};
 
     constructor(
       public accountService : AccountServiceService,
-        private orderService : OrderServiceService
+        private orderService : OrderServiceService,
+        private toastr: ToastrService,
     ) {}
     
     async ngOnInit() {
+      this.model.seller = {};
       await this.getOrders();
       // /this.orders = this.orderService.orderList;
       //console.log(this.orders);
     }
 
     async getOrders() {
-     this.orderService.getOrders(this.completed).subscribe(response => {
+      
+     this.orderService.getOrders(this.completed, this.accountService.getRole()).subscribe(response => {
 
       
       this.orders = response.body;
@@ -46,7 +51,7 @@ import { delay } from "rxjs/operators";
     }
 
     refreshOrders(){
-      this.orderService.getOrders("true").subscribe(response => {
+      this.orderService.getOrders("true",this.accountService.getRole()).subscribe(response => {
 
       
         this.orders = response.body;
@@ -72,6 +77,38 @@ import { delay } from "rxjs/operators";
       }
       console.log(this.completed)
       this.ngOnInit()
+    }
+
+    markCompleted(id){
+      this.orderService.markComplete(id).subscribe(response => {
+
+        
+        console.log(response);
+        this.toastr.success("Order marked complete!","Success")
+        this.ngOnInit()
+  
+      }, error => {
+        console.log(error.error);
+      });
+    }
+
+    selectSeller(seller: any){
+      this.model.seller=seller
+    }
+    rateSeller(){
+    console.log(this.model.seller.id);
+     this.accountService.rateSeller(this.model.seller.id, this.model.score).subscribe(response => {
+    
+      //this.router.navigate(['home'])
+
+        this.toastr.success(this.model.seller.userName + " has been rated!","Rating added")
+
+      console.log(response);
+      //this.toastr.success("Product " + this.model["Name"] + " listed successfuly!","New product listed")
+    }, error => {
+      this.toastr.error(error.error,"Rating error")
+    }) 
+    
     }
 
   }

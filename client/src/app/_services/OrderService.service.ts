@@ -21,25 +21,43 @@ export class OrderServiceService {
 
   constructor(private http: HttpClient) { }
 
-    getOrders(completed: any) {
-      var a = this.http.get(this.baseUrl+'order/getAllBySellerId', 
-    {
-      observe: 'response',
-      params: new HttpParams().set("pageNumber", this.currentPage)
-                              .set("pageSize", this.pageSize)
-                              .set("orderBy", this.filters.orderBy)
-                              .set("filters","{\"isCompleted\": +"+completed+"}")
-                              //.set("direction", this.direction=="arrow_downward" ? "asc" : "desc")
-    }).pipe(
-      map((response: any) => {
-        const types = response;
-        //console.log(types);
-        return types;
-      })
-    )
+    getOrders(completed: any, mode: any) {
+      if(mode== 'user'){
+        console.log(completed);
+        return this.http.get(this.baseUrl+'order/getAllByBuyerId', 
+        {
+          observe: 'response',
+          params: new HttpParams().set("pageNumber", this.currentPage)
+                                  .set("pageSize", this.pageSize)
+                                  .set("orderBy", this.filters.orderBy)
+                                  .set("filters","{\"isCompleted\": +"+completed+"}")
+                                  //.set("direction", this.direction=="arrow_downward" ? "asc" : "desc")
+        }).pipe(
+          map((response: any) => {
+            const types = response;
+            //console.log(types);
+            return types;
+          })
+        )
+      }else{
+        return this.http.get(this.baseUrl+'order/getAllBySellerId', 
+        {
+          observe: 'response',
+          params: new HttpParams().set("pageNumber", this.currentPage)
+                                  .set("pageSize", this.pageSize)
+                                  .set("orderBy", this.filters.orderBy)
+                                  .set("filters","{\"isCompleted\": +"+completed+"}")
+                                  //.set("direction", this.direction=="arrow_downward" ? "asc" : "desc")
+        }).pipe(
+          map((response: any) => {
+            const types = response;
+            //console.log(types);
+            return types;
+          })
+        )
+      }
+      
 
-    console.log(a)
-    return a;
     }
 
     addOrder(order: any) {
@@ -57,6 +75,17 @@ export class OrderServiceService {
         console.log(error.error);
       }) 
       }
+
+      
+
+    markComplete(id: number) {
+        return this.http.get(this.baseUrl+'order/markComplete/'+String(id)).pipe(
+          map((response: any) => {
+            console.log(response);
+            return response
+          })
+        )
+    }
     
   
 

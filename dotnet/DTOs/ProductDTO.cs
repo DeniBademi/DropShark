@@ -4,6 +4,7 @@ namespace dotnet.DTOs
 {
     public class ProductDTO
     {
+        public int id { get; set; }
         public int sellerId { get; set; }
         public int sellerRate { get; set; }
         public int sellerRatesTotal { get; set; }

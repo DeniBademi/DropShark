@@ -6,28 +6,28 @@ namespace dotnet.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "UserName",
-                table: "Orders");
+            // migrationBuilder.DropColumn(
+            //     name: "UserName",
+            //     table: "Orders");
 
-            migrationBuilder.AddColumn<int>(
-                name: "productId",
-                table: "Orders",
-                nullable: false,
-                defaultValue: 0);
+            // migrationBuilder.AddColumn<int>(
+            //     name: "productId",
+            //     table: "Orders",
+            //     nullable: false,
+            //     defaultValue: 0);
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_productId",
-                table: "Orders",
-                column: "productId");
+            // migrationBuilder.CreateIndex(
+            //     name: "IX_Orders_productId",
+            //     table: "Orders",
+            //     column: "productId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Orders_Products_productId",
-                table: "Orders",
-                column: "productId",
-                principalTable: "Products",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+            // migrationBuilder.AddForeignKey(
+            //     name: "FK_Orders_Products_productId",
+            //     table: "Orders",
+            //     column: "productId",
+            //     principalTable: "Products",
+            //     principalColumn: "Id",
+            //     onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

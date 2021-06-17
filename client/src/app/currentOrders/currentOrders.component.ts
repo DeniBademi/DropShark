@@ -95,6 +95,7 @@ import { ToastrService } from "ngx-toastr";
     selectSeller(seller: any){
       this.model.seller=seller
     }
+    
     rateSeller(){
     console.log(this.model.seller.id);
      this.accountService.rateSeller(this.model.seller.id, this.model.score).subscribe(response => {
